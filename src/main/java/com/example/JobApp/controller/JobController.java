@@ -5,40 +5,47 @@ import com.example.JobApp.model.JobPost;
 import com.example.JobApp.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@CrossOrigin("http://localhost:3000/")
 public class JobController {
     @Autowired
     private JobService jobService;
-    @RequestMapping({"/","/home"})
-    public String home(){
-        return "home";
-    }
 
-    @GetMapping("/addjob")
-    public String addJob(){
 
-        return "addjob";
-    }
 
-    @PostMapping("/handleForm")
-    public String handleForm(@ModelAttribute("jobPost") JobPost jobPost){
+    @PostMapping("/jobPost")
+    public String addJobPost(@RequestBody JobPost jobPost){
         jobService.addJob(jobPost);
         return "success";
     }
+    @PutMapping("/jobPost")
+    public String updateJobPost(@RequestBody JobPost newJobPost){
+        System.out.printf("update status = "+jobService.updateJobPost(newJobPost));
+        return "update status = "+jobService.updateJobPost(newJobPost);
+    }
 
-    @GetMapping("/viewalljobs")
-    public String viewAllJobs(Model model){
-        List<JobPost> jobPosts = jobService.getAllJobs();
-        model.addAttribute("jobPosts",jobPosts);
-        return "viewalljobs";
+    @DeleteMapping("/jobPost/{postId}")
+    public String deleteJobPost(@PathVariable("postId") String postId){
+
+        return "delete status = "+jobService.deleteJobPost(postId);
+    }
+
+
+    @GetMapping("/jobPosts")
+    public List<JobPost> viewAllJobs(){
+
+        return jobService.getAllJobs();
+
+    }
+
+    @GetMapping("/jobPost/{postId}")
+    public JobPost getJobPost(@PathVariable("postId") int postId){
+        return  jobService.getJobPost(postId);
+
     }
 
 

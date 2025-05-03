@@ -33,6 +33,40 @@ public class JobRepo {
 
     public void addJob(JobPost job){
         this.jobs.add(job);
-        System.out.println(this.jobs);
+        System.out.println("Job is added = " + this.jobs);
+    }
+
+    public JobPost getJobPost(int postId) {
+
+        for(JobPost job:this.jobs){
+            if (Integer.parseInt(job.getPostId())==postId){
+                return job;
+            }
+        }
+        return null;
+    }
+
+    public Boolean updateJobPost(JobPost newJobPost) {
+        for(JobPost job:this.jobs){
+            if (Integer.parseInt(job.getPostId())==Integer.parseInt(newJobPost.getPostId())){
+
+                this.jobs.add(newJobPost);
+                return this.jobs.remove(job);
+
+            }
+        }
+        return false;
+    }
+
+    public Boolean deleteJobPost(String postId) {
+        for(JobPost job:this.jobs){
+            if (job.getPostId().equals(postId)){
+
+                return this.jobs.remove(job);
+
+
+            }
+        }
+        return false;
     }
 }
