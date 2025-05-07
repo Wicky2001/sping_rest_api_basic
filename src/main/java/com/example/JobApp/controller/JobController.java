@@ -4,10 +4,10 @@ package com.example.JobApp.controller;
 import com.example.JobApp.model.JobPost;
 import com.example.JobApp.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("http://localhost:3000/")
@@ -42,8 +42,13 @@ public class JobController {
 
     }
 
+    @GetMapping("/jobPosts/keyword/{keyword}")
+    public List<JobPost> searchByKeyWord(@PathVariable("keyword") String keyword){
+        return jobService.searchByKeyWord(keyword);
+    }
+
     @GetMapping("/jobPost/{postId}")
-    public JobPost getJobPost(@PathVariable("postId") int postId){
+    public Optional<JobPost> getJobPost(@PathVariable("postId") String postId){
         return  jobService.getJobPost(postId);
 
     }

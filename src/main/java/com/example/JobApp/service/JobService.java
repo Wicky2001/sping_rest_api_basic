@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobService {
@@ -14,25 +15,36 @@ public class JobService {
     private JobRepo jobRepo;
 
     public void addJob(JobPost jobPost){
-        jobRepo.addJob(jobPost);
+        jobRepo.save(jobPost);
     }
 
 
 
     public List<JobPost> getAllJobs(){
-        return jobRepo.getAllJobs();
+        return jobRepo.findAll();
     }
 
-    public JobPost getJobPost(int postId) {
-        return  jobRepo.getJobPost(postId);
+    public Optional<JobPost> getJobPost(String postId) {
+        return  jobRepo.findById(postId);
 
     }
 
     public Boolean updateJobPost(JobPost newJobPost) {
-        return  jobRepo.updateJobPost(newJobPost);
+        JobPost savedPost = jobRepo.save(newJobPost);
+        return true;
     }
 
     public Boolean deleteJobPost(String postId) {
-        return jobRepo.deleteJobPost(postId);
+        try {
+            jobRepo.deleteById(postId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public List<JobPost> searchByKeyWord(String keyword) {
+
+            return jobRepo.findByPostProfileContainingOrPostDescContaining(keyword,keyword);
     }
 }

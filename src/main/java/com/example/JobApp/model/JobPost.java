@@ -1,13 +1,23 @@
 package com.example.JobApp.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 import java.util.List;
 
 
+@Entity
 public class JobPost {
+
+
+    @Id
+    private String postId;
+    private String postProfile;
+    private String postDesc;
+    private int reqExperience;
+    private List<String> postTechStack;
 
     public JobPost(String postId, String postProfile, String postDesc, int reqExperience, List<String> postTechStack) {
         this.postId = postId;
@@ -17,12 +27,8 @@ public class JobPost {
         this.postTechStack = postTechStack;
     }
 
-    private String postId;
-    private String postProfile;
-    private String postDesc;
-    private int reqExperience;
-    private List<String> postTechStack;
 
+    public JobPost() {}
 
     public String getPostId() {
         return postId;
